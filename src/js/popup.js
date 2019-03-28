@@ -663,6 +663,7 @@ function getTab(callback) {
  */
 function setPopupData(data) {
   POPUP_DATA = data;
+   chrome.extension.getBackgroundPage().console.log(JSON.stringify(POPUP_DATA.origins));
 }
 
 $(function () {
