@@ -737,13 +737,16 @@ function dispatcher(request, sender, sendResponse) {
       tab_url = request.tabUrl,
       tab_host = window.extractHostFromURL(tab_url),
       has_tab_data = badger.tabData.hasOwnProperty(tab_id);
-
+    if (has_tab_data){
+      badger.getOwners(tab_id)
+    }
     sendResponse({
       criticalError: badger.criticalError,
       enabled: badger.isPrivacyBadgerEnabled(tab_host),
       errorText: has_tab_data && badger.tabData[tab_id].errorText,
       noTabData: !has_tab_data,
       origins: has_tab_data && badger.tabData[tab_id].origins,
+      owners: has_tab_data && badger.tabData[tab_id].owners,
       seenComic: badger.getSettings().getItem("seenComic"),
       tabHost: tab_host,
       tabId: tab_id,
