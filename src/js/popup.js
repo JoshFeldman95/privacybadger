@@ -510,6 +510,13 @@ function refreshPopup() {
   originsArr = htmlUtils.sortDomains(originsArr);
   var num_trackers = 0;
 
+  var trackerText = "These organizations appear to be tracking you";
+  var trackerTooltip = "These organizations have been following you for at least three sites, so we blocked them.";
+
+  printable_trackers.push(
+    '<div class="clicker tooltip tabHeader" title="'+trackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+trackerText+'</div>'
+  );
+
   for (let i=0; i < originsArr.length; i++) {
     var origin = originsArr[i];
     var action = origins[origin];
@@ -522,6 +529,7 @@ function refreshPopup() {
     if (action != constants.DNT) {
       num_trackers++;
     }
+
     printable_trackers.push(
       htmlUtils.getOriginHtml(origin, action, action == constants.DNT)
     );
@@ -532,7 +540,7 @@ function refreshPopup() {
 
   if (nonTracking.length > 0) {
     printable_nontrackers.push(
-      '<div class="clicker tooltip" id="nonTrackers" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
+      '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
     );
     for (let i = 0; i < nonTracking.length; i++) {
       printable_nontrackers.push(
