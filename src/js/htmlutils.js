@@ -128,13 +128,21 @@ var htmlUtils = exports.htmlUtils = {
   getTrackerContainerHtml: function() {
     var trackerHtml = '' +
       '<div class="keyContainer">' +
-      '<div class="key">' +
-      '<img src="/icons/UI-icons-red.svg" class="tooltip" title="' + i18n.getMessage("tooltip_block") + '">' +
-      '<img src="/icons/UI-icons-yellow.svg" class="tooltip" title="' + i18n.getMessage("tooltip_cookieblock") + '">' +
-      '<img src="/icons/UI-icons-green.svg" class="tooltip" title="' + i18n.getMessage("tooltip_allow") + '">' +
+        '<div class="key">' +
+          '<img src="/icons/UI-icons-red.svg" class="tooltip" title="' + i18n.getMessage("tooltip_block") + '">' +
+          '<img src="/icons/UI-icons-yellow.svg" class="tooltip" title="' + i18n.getMessage("tooltip_cookieblock") + '">' +
+          '<img src="/icons/UI-icons-green.svg" class="tooltip" title="' + i18n.getMessage("tooltip_allow") + '">' +
       '</div></div>' +
       '<div class="spacer"></div>' +
-      '<div id="blockedResourcesInner" class="clickerContainer"></div>';
+      '<div id="blockedResourcesInner" class="clickerContainer">'+
+      '<div id="tabs">'+
+        '<ul>'+
+          '<li><a href="#trackers">Trackers</a></li>'+
+          '<li><a href="#nontrackers">Not Trackers</a></li>'+
+        '</ul>'+
+        '<div id="trackers"></div>'+
+        '<div id="nontrackers"></div>'+
+      '</div>';
     return trackerHtml;
   },
 
@@ -273,6 +281,22 @@ var htmlUtils = exports.htmlUtils = {
     }
   },
 
+  /**
+  * Get the html for the tracker and non-tracker tabs
+  *
+  *@returns{String} list of tabs
+  */
+  getTabHtml: function() {
+    const tabHtml = '' +
+      '<div id="tabs">'+
+      '<ul>'+
+      '<li><a href="#trackers">Trackers</a></li>'+
+      '<li><a href="#nontrackers">Not Trackers</a></li>'+
+      '</ul>'+
+      '</div>';
+
+    return tabHtml;
+  },
 };
 
 return exports;
