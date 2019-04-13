@@ -473,6 +473,7 @@ function refreshPopup() {
     $("#error_input").val(POPUP_DATA.errorText);
   }
   let origins = POPUP_DATA.origins;
+  let owners = POPUP_DATA.owners;
   let originsArr = [];
   if (origins) {
     originsArr = Object.keys(origins);
@@ -519,9 +520,9 @@ function refreshPopup() {
   for (let i=0; i < originsArr.length; i++) {
     var origin = originsArr[i];
     var action = origins[origin];
-
+    var owner = owners[origin];
     if (action == constants.NO_TRACKING) {
-      nonTracking.push(origin);
+      nonTracking.push(owner);
       continue;
     }
 
@@ -530,7 +531,7 @@ function refreshPopup() {
     }
 
     printable_trackers.push(
-      htmlUtils.getOriginHtml(origin, action, action == constants.DNT)
+      htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
     );
   }
 
@@ -676,6 +677,7 @@ function getTab(callback) {
  */
 function setPopupData(data) {
   POPUP_DATA = data;
+  console.log(POPUP_DATA)
 }
 
 $(function () {
