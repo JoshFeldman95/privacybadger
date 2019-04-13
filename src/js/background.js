@@ -577,7 +577,7 @@ Badger.prototype = {
           registrant_info.substring(registrant_info.indexOf("Registrant Organization"),
           registrant_info.indexOf("Registrant State/Province")) ;
         var name = org_field.slice(org_field.indexOf(":") + 2); }); **/
-        this.tabData[tab_id].owners[domain] = "OWNER" ;
+        this.tabData[tab_id].owners[domain] = domain.concat("OWNER") ;
     }
   },
 
