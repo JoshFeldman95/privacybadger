@@ -239,7 +239,8 @@ Badger.prototype = {
     if (!self.tabData.hasOwnProperty(tabId)) {
       self.tabData[tabId] = {
         frames: {},
-        origins: {}
+        origins: {},
+        owners: {}
       };
     }
 
@@ -566,6 +567,20 @@ Badger.prototype = {
     return count;
   },
 
+  getOwners: function (tab_id) {
+    let origins = this.tabData[tab_id].origins ;
+    for (let domain in origins) {
+      /**$.get("https://www.whois.com/whois/".concat(domain), function(html) {
+        console.log(html) ;
+        var registrant_info = $('<body>').append(html).find("#registrarData")[0].innerText ;
+        var org_field =
+          registrant_info.substring(registrant_info.indexOf("Registrant Organization"),
+          registrant_info.indexOf("Registrant State/Province")) ;
+        var name = org_field.slice(org_field.indexOf(":") + 2); }); **/
+        this.tabData[tab_id].owners[domain] = "OWNER" ;
+    }
+  },
+
   /**
    * Update page action badge with current count.
    * @param {Integer} tab_id browser tab ID
@@ -773,7 +788,6 @@ Badger.prototype = {
       blocked = constants.BLOCKED_ACTIONS.has(action),
       origins = self.tabData[tab_id].origins,
       previously_blocked = constants.BLOCKED_ACTIONS.has(origins[fqdn]);
-
     origins[fqdn] = action;
 
     if (!blocked || previously_blocked) {

@@ -472,7 +472,6 @@ function refreshPopup() {
   if (POPUP_DATA.hasOwnProperty('errorText')) {
     $("#error_input").val(POPUP_DATA.errorText);
   }
-
   let origins = POPUP_DATA.origins;
   let originsArr = [];
   if (origins) {
