@@ -504,7 +504,8 @@ function refreshPopup() {
   // activate tooltips
   $('.tooltip').tooltipster();
 
-  var printable = [];
+  var printable_trackers = [];
+  var printable_nontrackers = [];
   var nonTracking = [];
   originsArr = htmlUtils.sortDomains(originsArr);
   var num_trackers = 0;
@@ -521,7 +522,7 @@ function refreshPopup() {
     if (action != constants.DNT) {
       num_trackers++;
     }
-    printable.push(
+    printable_trackers.push(
       htmlUtils.getOriginHtml(origin, action, action == constants.DNT)
     );
   }
@@ -530,11 +531,11 @@ function refreshPopup() {
   var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
 
   if (nonTracking.length > 0) {
-    printable.push(
+    printable_nontrackers.push(
       '<div class="clicker tooltip" id="nonTrackers" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
     );
     for (let i = 0; i < nonTracking.length; i++) {
-      printable.push(
+      printable_nontrackers.push(
         htmlUtils.getOriginHtml(nonTracking[i], constants.NO_TRACKING, false)
       );
     }
@@ -566,26 +567,31 @@ function refreshPopup() {
   function renderDomains() {
     const CHUNK = 1;
 
-    let $printable = $(printable.splice(0, CHUNK).join(""));
+    let $printable_trackers = $(printable_trackers.splice(0, CHUNK).join(""));
+    let $printable_nontrackers = $(printable_nontrackers.splice(0, CHUNK).join(""));
 
-    $printable.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_trackers.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_nontrackers.find('.switch-toggle').each(registerToggleHandlers);
 
     // Hide elements for removing origins (controlled from the options page).
     // Popup shows what's loaded for the current page so it doesn't make sense
     // to have removal ability here.
-    $printable.find('.removeOrigin').hide();
+    $printable_trackers.find('.removeOrigin').hide();
+    $printable_nontrackers.find('.removeOrigin').hide();
 
-    $printable.appendTo('#blockedResourcesInner');
+    $printable_trackers.appendTo('#trackers');
+    $printable_nontrackers.appendTo('#nontrackers');
 
     // activate tooltips
     $('#blockedResourcesInner .tooltip:not(.tooltipstered)').tooltipster(
       htmlUtils.DOMAIN_TOOLTIP_CONF);
 
-    if (printable.length) {
+    if ($printable_trackers.length || $printable_nontrackers.length) {
       requestAnimationFrame(renderDomains);
     } else {
       window.SLIDERS_DONE = true;
     }
+    $( "#tabs" ).tabs();
   }
   requestAnimationFrame(renderDomains);
 }
@@ -663,7 +669,6 @@ function getTab(callback) {
  */
 function setPopupData(data) {
   POPUP_DATA = data;
-   chrome.extension.getBackgroundPage().console.log(JSON.stringify(POPUP_DATA.origins));
 }
 
 $(function () {
