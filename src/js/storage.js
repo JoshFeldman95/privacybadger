@@ -105,7 +105,7 @@ BadgerPen.prototype = {
     "action_map",
     "cookieblock_list",
     "dnt_hashes",
-    "settings_map",
+    "settings_map"
   ],
 
   getBadgerStorageObject: function(key) {
@@ -321,6 +321,16 @@ BadgerPen.prototype = {
     }
   },
 
+  /** A helper function to find the name of the registered organization for a
+  domain using WHOSIS
+  function getDomainOwner (domain) {
+    $.get("https://www.whois.com/whois/".concat(domain), function(html) {
+      var registrant_info = $('<body>').append(html).find("#registrarData")[0].innerText ;
+      var org_field =
+      registrant_info.substring(registrant_info.indexOf("Registrant Organization"),
+      registrant_info.indexOf("Registrant State/Province")) ;
+      return org_field.slice(org_field.indexOf(":") + 2) ; });
+  }; **/
   /**
    * Set up an action for a domain of the given action type in action_map
    *
@@ -338,8 +348,18 @@ BadgerPen.prototype = {
       actionObj = action_map.getItem(domain);
       msg = "Updating " + msg;
     } else {
+      console.log("hi") ;
       actionObj = _newActionMapObject();
       msg = "Initializing " + msg;
+      actionObj["registrant_name"] = "OWNER";
+      /**$.get("https://www.whois.com/whois/".concat(domain), function(html) {
+        console.log(html) ;
+        var registrant_info = $('<body>').append(html).find("#registrarData")[0].innerText ;
+        var org_field =
+        registrant_info.substring(registrant_info.indexOf("Registrant Organization"),
+        registrant_info.indexOf("Registrant State/Province")) ;
+        actionObj["registrant_name"] = org_field.slice(org_field.indexOf(":") + 2) ;
+      });**/
     }
     actionObj[actionType] = action;
 
@@ -412,7 +432,8 @@ var _newActionMapObject = function() {
     userAction: "",
     dnt: false,
     heuristicAction: "",
-    nextUpdateTime: 0
+    nextUpdateTime: 0,
+    registrant_name: ""
   };
 };
 
