@@ -134,6 +134,27 @@ var multiDomainFirstPartiesArray = [
     "ancestrycdn.com",
   ],
   ["androidcentral.com", "mobilenations.com"],
+  [
+    "apa.at",
+    "apa-it.at",
+    "apa-defacto.at",
+    "ots.at",
+
+    "orf.at",
+    "oe24.at",
+    "wienerzeitung.at",
+    "kleinezeitung.at",
+    "vn.at",
+    "kurier.at",
+    "nachrichten.at",
+    "derstandard.at",
+    "sn.at",
+    "volksblatt.at",
+    "neue.at",
+
+    "tt.com",
+    "diepresse.com",
+  ],
   ["apple.com", "icloud.com"],
   ["applefcu.org", "applefcuonline.org"],
   ["archive.org", "openlibrary.org"],
@@ -293,6 +314,19 @@ var multiDomainFirstPartiesArray = [
     "alamo.ca",
     "alamo.com",
 
+    "autoshare.com",
+    "autoshare.biz",
+    "autoshare.ca",
+    "autoshare.net",
+    "autoshare.org",
+
+    "cars.info",
+    "carsharing.ca",
+    "carsharingtoronto.com",
+    "citer.fr",
+
+    "ehi.com",
+
     "enterprise.ca",
     "enterprise.ch",
     "enterprise.com.jm",
@@ -313,6 +347,7 @@ var multiDomainFirstPartiesArray = [
     "enterprise.se",
 
     "enterprisecarclub.co.uk",
+    "enterprisecarclub.ie",
 
     "enterprisecarshare.ca",
     "enterprisecarshare.com",
@@ -340,6 +375,9 @@ var multiDomainFirstPartiesArray = [
     "nationalcar.fr",
     "nationalcar.ie",
     "nationalcar.it",
+    "nationalcar.mobi",
+
+    "onewaygo.de",
   ],
   [
     "expedia.com",
@@ -1152,6 +1190,11 @@ var multiDomainFirstPartiesArray = [
     "wnyc.org",
   ],
   ["nytimes.com", "newyorktimes.com", "nyt.com"],
+  [
+    "nyu.edu",
+
+    "nyupress.org",
+  ],
   [
     "nvidia.com",
 
