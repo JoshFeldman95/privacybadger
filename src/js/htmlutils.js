@@ -140,7 +140,10 @@ var htmlUtils = exports.htmlUtils = {
           '<li><a href="#trackers">Trackers</a></li>'+
           '<li><a href="#nontrackers">Not Trackers</a></li>'+
         '</ul>'+
-        '<div id="trackers"></div>'+
+        '<div id="trackers" class = "row">'+
+          '<div id="blocked" class = "column"></div>'+
+          '<div id="notblocked" class = "column"></div>'+
+        '</div>'+
         '<div id="nontrackers"></div>'+
       '</div>';
     return trackerHtml;

@@ -421,3 +421,15 @@ div.overlay.active {
     margin-right: 0;
   }
 }
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

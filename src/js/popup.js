@@ -504,50 +504,57 @@ function refreshPopup() {
   // activate tooltips
   $('.tooltip').tooltipster();
 
-  var printable_trackers = [];
+  var printable_blocked_trackers = [];
+  var printable_not_blocked_tracker = [];
   var printable_nontrackers = [];
-  var nonTracking = [];
+
   originsArr = htmlUtils.sortDomains(originsArr);
   var num_trackers = 0;
 
-  var trackerText = "These organizations appear to be tracking you";
-  var trackerTooltip = "These organizations have been following you for at least three sites, so we blocked them.";
+  //var trackerText = "These organizations appear to be tracking you";
+  //var trackerTooltip = "These organizations have been following you for at least three sites, so we blocked them.";
 
-  printable_trackers.push(
-    '<div class="clicker tooltip tabHeader" title="'+trackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+trackerText+'</div>'
-  );
+  //printable_trackers.push(
+    //'<div class="clicker tooltip tabHeader" title="'+trackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+trackerText+'</div>'
+  //);
 
   for (let i=0; i < originsArr.length; i++) {
     var origin = originsArr[i];
     var action = origins[origin];
     var owner = owners[origin];
-    if (action == constants.NO_TRACKING) {
-      nonTracking.push(owner);
-      continue;
-    }
 
     if (action != constants.DNT) {
       num_trackers++;
     }
 
-    printable_trackers.push(
-      htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
-    );
-  }
-
-  var nonTrackerText = chrome.i18n.getMessage("non_tracker");
-  var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
-
-  if (nonTracking.length > 0) {
-    printable_nontrackers.push(
-      '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
-    );
-    for (let i = 0; i < nonTracking.length; i++) {
+    if (action == constants.BLOCK) {
+      printable_blocked_trackers.push(
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+      );
+    } else if (action == constants.COOKIEBLOCK) {
+      printable_not_blocked_tracker.push(
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+      );
+    } else if (action == constants.ALLOW || action == constants.NO_TRACKING) { //how is allow different from no tracking?
       printable_nontrackers.push(
-        htmlUtils.getOriginHtml(nonTracking[i], constants.NO_TRACKING, false)
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
       );
     }
   }
+
+  //var nonTrackerText = chrome.i18n.getMessage("non_tracker");
+  //var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
+
+  //if (nonTracking.length > 0) {
+  //  printable_nontrackers.push(
+  //    '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
+  //  );
+  //  for (let i = 0; i < nonTracking.length; i++) {
+  //    printable_nontrackers.push(
+  //      htmlUtils.getOriginHtml(nonTracking[i], constants.NO_TRACKING, false)
+  //    );
+  //  }
+  //}
 
   if (num_trackers === 0) {
     // hide multiple trackers message
@@ -575,26 +582,30 @@ function refreshPopup() {
   function renderDomains() {
     const CHUNK = 1;
 
-    let $printable_trackers = $(printable_trackers.splice(0, CHUNK).join(""));
+    let $printable_blocked_trackers = $(printable_blocked_trackers.splice(0, CHUNK).join(""));
+    let $printable_not_blocked_tracker = $(printable_not_blocked_tracker.splice(0, CHUNK).join(""));
     let $printable_nontrackers = $(printable_nontrackers.splice(0, CHUNK).join(""));
 
-    $printable_trackers.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_blocked_trackers.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_not_blocked_tracker.find('.switch-toggle').each(registerToggleHandlers);
     $printable_nontrackers.find('.switch-toggle').each(registerToggleHandlers);
 
     // Hide elements for removing origins (controlled from the options page).
     // Popup shows what's loaded for the current page so it doesn't make sense
     // to have removal ability here.
-    $printable_trackers.find('.removeOrigin').hide();
+    $printable_blocked_trackers.find('.removeOrigin').hide();
+    $printable_not_blocked_tracker.find('.removeOrigin').hide();
     $printable_nontrackers.find('.removeOrigin').hide();
 
-    $printable_trackers.appendTo('#trackers');
+    $printable_blocked_trackers.appendTo('#blocked');
+    $printable_not_blocked_tracker.appendTo('#notblocked');
     $printable_nontrackers.appendTo('#nontrackers');
 
     // activate tooltips
     $('#blockedResourcesInner .tooltip:not(.tooltipstered)').tooltipster(
       htmlUtils.DOMAIN_TOOLTIP_CONF);
 
-    if ($printable_trackers.length || $printable_nontrackers.length) {
+    if (originsArr.length) {
       requestAnimationFrame(renderDomains);
     } else {
       window.SLIDERS_DONE = true;
