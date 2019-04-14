@@ -546,11 +546,16 @@ function refreshPopup() {
     printable_blocked_trackers.unshift(
       '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Don\'t worry! We blocked these trackers.</div>'
     );
+  } else{
+    $("#blocked").hide()
+
   }
   if (printable_not_blocked_tracker.length > 0) {
     printable_not_blocked_tracker.unshift(
       '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>Blocking these trackers would break this website.</div>'
     );
+  } else {
+    $('#notblocked').hide()
   }
   var nonTrackerText = chrome.i18n.getMessage("non_tracker");
   var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
