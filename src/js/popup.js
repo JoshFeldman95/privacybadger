@@ -566,9 +566,10 @@ function refreshPopup() {
     $("#instructions_one_tracker").show();
 
   } else {
+    const url = new URL(POPUP_DATA.tabUrl)
     $('#instructions-many-trackers').html(chrome.i18n.getMessage(
       "popup_instructions", [
-        num_trackers,
+        url.hostname,
         "<a target='_blank' title='" + _.escape(chrome.i18n.getMessage("what_is_a_tracker")) + "' class='tooltip' href='https://www.eff.org/privacybadger/faq#What-is-a-third-party-tracker'>"
       ]
     )).find(".tooltip").tooltipster();

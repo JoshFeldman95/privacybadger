@@ -370,12 +370,12 @@
         "description": ""
     },
     "popup_instructions": {
-        "message": "Privacy Badger detected $COUNT$ potential $TRACKER_LINK_START$trackers$TRACKER_LINK_END$ on this page. These sliders let you control how Privacy Badger handles each one. You shouldn't need to adjust the sliders unless something is broken.",
+        "message":"We think sites other than $SITE$ are $TRACKER_LINK_START$tracking$TRACKER_LINK_END$ you.",
         "description": "Popup message that shows the number of trackers. This particular message is used when that number is greater than one.",
         "placeholders": {
-            "count": {
+            "site": {
                 "content": "$1",
-                "example": "15"
+                "example": "a.com"
             },
             "tracker_link_start": {
                 "content": "$2",
