@@ -542,19 +542,14 @@ function refreshPopup() {
     }
   }
 
-  //var nonTrackerText = chrome.i18n.getMessage("non_tracker");
-  //var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
+  var nonTrackerText = chrome.i18n.getMessage("non_tracker");
+  var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
 
-  //if (nonTracking.length > 0) {
-  //  printable_nontrackers.push(
-  //    '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
-  //  );
-  //  for (let i = 0; i < nonTracking.length; i++) {
-  //    printable_nontrackers.push(
-  //      htmlUtils.getOriginHtml(nonTracking[i], constants.NO_TRACKING, false)
-  //    );
-  //  }
-  //}
+  if (printable_nontrackers.length > 0) {
+    printable_nontrackers.unshift(
+      '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
+    );
+  }
 
   if (num_trackers === 0) {
     // hide multiple trackers message
