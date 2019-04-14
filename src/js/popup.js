@@ -542,9 +542,18 @@ function refreshPopup() {
     }
   }
 
+  if (printable_blocked_trackers.length > 0) {
+    printable_blocked_trackers.unshift(
+      '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Don\'t worry! We blocked these trackers.</div>'
+    );
+  }
+  if (printable_not_blocked_tracker.length > 0) {
+    printable_not_blocked_tracker.unshift(
+      '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>Blocking these trackers would break this website.</div>'
+    );
+  }
   var nonTrackerText = chrome.i18n.getMessage("non_tracker");
   var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
-
   if (printable_nontrackers.length > 0) {
     printable_nontrackers.unshift(
       '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
