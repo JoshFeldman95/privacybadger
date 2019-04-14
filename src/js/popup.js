@@ -99,7 +99,7 @@ function showNagMaybe() {
  */
 function init() {
   showNagMaybe();
-
+  showTracker()
   $("#activate_site_btn").on("click", activateOnSite);
   $("#deactivate_site_btn").on("click", deactivateOnSite);
   $("#donate").on("click", function() {
@@ -107,6 +107,9 @@ function init() {
       url: "https://supporters.eff.org/donate/support-privacy-badger"
     });
   });
+  $("#show_tracker_btn").on("click", showTracker);
+  $("#show_not_tracker_btn").on("click", showNontrackers);
+
 
   $('#error_input').on('input propertychange', function() {
     // No easy way of sending message on popup close, send message for every change
@@ -172,6 +175,18 @@ function init() {
   });
 
   window.POPUP_INITIALIZED = true;
+}
+
+function showTracker(){
+  console.log('tracker')
+  $("#trackers").show()
+  $("#nontrackers").hide()
+}
+
+function showNontrackers(){
+  console.log('non tracker')
+  $("#nontrackers").show()
+  $("#trackers").hide()
 }
 
 function openOptionsPage() {
@@ -547,15 +562,15 @@ function refreshPopup() {
       '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Don\'t worry! We blocked these trackers.</div>'
     );
   } else{
-    $("#blocked").hide()
+    $("#blocked").parent().hide()
 
   }
   if (printable_not_blocked_tracker.length > 0) {
     printable_not_blocked_tracker.unshift(
-      '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>Blocking these trackers would break this website.</div>'
+      '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>We tried our best, but blocking these trackers would break this website.</div>'
     );
   } else {
-    $('#notblocked').hide()
+    $('#notblocked').parent().hide()
   }
   var nonTrackerText = chrome.i18n.getMessage("non_tracker");
   var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
@@ -620,7 +635,6 @@ function refreshPopup() {
     } else {
       window.SLIDERS_DONE = true;
     }
-    $( "#tabs" ).tabs();
   }
   requestAnimationFrame(renderDomains);
 }

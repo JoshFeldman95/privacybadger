@@ -128,11 +128,6 @@ var htmlUtils = exports.htmlUtils = {
   getTrackerContainerHtml: function() {
     var trackerHtml = '' +
       '<div id="blockedResourcesInner" class="clickerContainer">'+
-      '<div id="tabs">'+
-        '<ul>'+
-          '<li><a href="#trackers">Trackers</a></li>'+
-          '<li><a href="#nontrackers">Not Trackers</a></li>'+
-        '</ul>'+
         '<div id="trackers">'+
           '<table><tr>'+
             '<td><div id="blocked"></div></th>'+

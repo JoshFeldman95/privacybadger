@@ -279,6 +279,25 @@ font-size: 16px;
   border: 2px solid #000;
 }
 
+.tabButton{
+  font-size: 20px;
+  font-weight: bold;
+  border: 5px solid #555;
+  padding: 10px;
+  color: #555;
+  background-color: #fefefe;
+}
+
+.tabButton:hover {
+  font-size: 20px;
+  font-weight: bold;
+  border: 5px solid #000;
+  padding: 10px;
+  color: #000;
+  background-color: #fefefe;
+
+}
+
 .tabHeader {
   text-align: center;
   color: #f9f9f9;
@@ -286,6 +305,20 @@ font-size: 16px;
   height: auto;
   font-size: 14px;
   font-weight: bold;
+}
+
+table{
+    width: 100%;
+    table-layout: fixed;
+}
+
+td{
+    width: 50%;
+    vertical-align: top;
+}
+
+td:empty{
+  display: none;
 }
 .overlay {
   position: absolute;
@@ -432,11 +465,4 @@ div.overlay.active {
   content: "";
   display: table;
   clear: both;
-}
-table{
-    width: 100%;
-}
-td{
-    width: 50%;
-    vertical-align: top;
 }
