@@ -521,6 +521,11 @@ function refreshPopup() {
     var origin = originsArr[i];
     var action = origins[origin];
     var owner = owners[origin];
+
+    document.getElementById("show".concat(origin)).addEventListener("click", function() {
+      $("#url".concat(origin)).show()
+    });
+
     if (action == constants.NO_TRACKING) {
       nonTracking.push(owner);
       continue;
@@ -531,7 +536,7 @@ function refreshPopup() {
     }
 
     printable_trackers.push(
-      htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+      htmlUtils.getOriginHtml(origin, owner, action, action == constants.DNT)
     );
   }
 

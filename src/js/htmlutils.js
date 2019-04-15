@@ -154,7 +154,7 @@ var htmlUtils = exports.htmlUtils = {
    * @param {Boolean} isWhitelisted Whether origin is whitelisted or not.
    * @returns {String} Origin HTML.
    */
-  getOriginHtml: function(origin, action, isWhitelisted) {
+  getOriginHtml: function(origin, owner, action, isWhitelisted) {
     action = _.escape(action);
     origin = _.escape(origin);
 
@@ -182,12 +182,18 @@ var htmlUtils = exports.htmlUtils = {
     // Construct HTML for origin.
     var actionDescription = htmlUtils.getActionDescription(action, origin, isWhitelisted);
     var originHtml = '' +
+      '<div class = "col-sm">'
       '<div class="' + classes.join(' ') + '" data-origin="' + origin + '">' +
-      '<div class="origin tooltip" title="' + actionDescription + '">' + whitelistedText + origin + '</div>' +
+      '<div class="origin tooltip" title="' + actionDescription + '">' + whitelistedText + owner + '</div>' +
       '<div class="removeOrigin">&#10006</div>' +
       htmlUtils.getToggleHtml(origin, action) +
       '<div class="honeybadgerPowered tooltip" title="'+ UNDO_ARROW_TOOLTIP_TEXT + '"></div>' +
-      '</div>';
+      '</div>' + '</div>' +
+      '<div class = "col-sm" id = "col2' + origin + '">' +
+      '<button class="btn btn-sm btn-primary active" id = show'
+      + origin + '> Show Domain Name </button>' + '<div hidden id = url' + origin + '>' + origin + '</div>'
+      + '</div>'
+;
 
     return originHtml;
   },
