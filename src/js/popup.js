@@ -99,7 +99,7 @@ function showNagMaybe() {
  */
 function init() {
   showNagMaybe();
-
+  showTracker()
   $("#activate_site_btn").on("click", activateOnSite);
   $("#deactivate_site_btn").on("click", deactivateOnSite);
   $("#donate").on("click", function() {
@@ -107,6 +107,9 @@ function init() {
       url: "https://supporters.eff.org/donate/support-privacy-badger"
     });
   });
+  $("#show_tracker_btn").on("click", showTracker);
+  $("#show_not_tracker_btn").on("click", showNontrackers);
+
 
   $('#error_input').on('input propertychange', function() {
     // No easy way of sending message on popup close, send message for every change
@@ -172,6 +175,18 @@ function init() {
   });
 
   window.POPUP_INITIALIZED = true;
+}
+
+function showTracker(){
+  console.log('tracker')
+  $("#trackers").show()
+  $("#nontrackers").hide()
+}
+
+function showNontrackers(){
+  console.log('non tracker')
+  $("#nontrackers").show()
+  $("#trackers").hide()
 }
 
 function openOptionsPage() {
@@ -504,23 +519,25 @@ function refreshPopup() {
   // activate tooltips
   $('.tooltip').tooltipster();
 
-  var printable_trackers = [];
+  var printable_blocked_trackers = [];
+  var printable_not_blocked_tracker = [];
   var printable_nontrackers = [];
-  var nonTracking = [];
+
   originsArr = htmlUtils.sortDomains(originsArr);
   var num_trackers = 0;
 
-  var trackerText = "These organizations appear to be tracking you";
-  var trackerTooltip = "These organizations have been following you for at least three sites, so we blocked them.";
+  //var trackerText = "These organizations appear to be tracking you";
+  //var trackerTooltip = "These organizations have been following you for at least three sites, so we blocked them.";
 
-  printable_trackers.push(
-    '<div class="clicker tooltip tabHeader" title="'+trackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+trackerText+'</div>'
-  );
+  //printable_trackers.push(
+    //'<div class="clicker tooltip tabHeader" title="'+trackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+trackerText+'</div>'
+  //);
 
   for (let i=0; i < originsArr.length; i++) {
     var origin = originsArr[i];
     var action = origins[origin];
     var owner = owners[origin];
+<<<<<<< HEAD
 
     document.getElementById("show".concat(origin)).addEventListener("click", function() {
       $("#url".concat(origin)).show()
@@ -530,28 +547,55 @@ function refreshPopup() {
       nonTracking.push(owner);
       continue;
     }
+=======
+>>>>>>> a28fe0dea028e6abfb93511435c2c9bbc7b89c62
 
     if (action != constants.DNT) {
       num_trackers++;
     }
 
+<<<<<<< HEAD
     printable_trackers.push(
       htmlUtils.getOriginHtml(origin, owner, action, action == constants.DNT)
     );
-  }
-
-  var nonTrackerText = chrome.i18n.getMessage("non_tracker");
-  var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
-
-  if (nonTracking.length > 0) {
-    printable_nontrackers.push(
-      '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
-    );
-    for (let i = 0; i < nonTracking.length; i++) {
+=======
+    if (action == constants.BLOCK) {
+      printable_blocked_trackers.push(
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+      );
+    } else if (action == constants.COOKIEBLOCK) {
+      printable_not_blocked_tracker.push(
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+      );
+    } else if (action == constants.ALLOW || action == constants.NO_TRACKING) { //how is allow different from no tracking?
       printable_nontrackers.push(
-        htmlUtils.getOriginHtml(nonTracking[i], constants.NO_TRACKING, false)
+        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
       );
     }
+>>>>>>> a28fe0dea028e6abfb93511435c2c9bbc7b89c62
+  }
+
+  if (printable_blocked_trackers.length > 0) {
+    printable_blocked_trackers.unshift(
+      '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Don\'t worry! We blocked these trackers.</div>'
+    );
+  } else{
+    $("#blocked").parent().hide()
+
+  }
+  if (printable_not_blocked_tracker.length > 0) {
+    printable_not_blocked_tracker.unshift(
+      '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>We tried our best, but blocking these trackers would break this website.</div>'
+    );
+  } else {
+    $('#notblocked').parent().hide()
+  }
+  var nonTrackerText = chrome.i18n.getMessage("non_tracker");
+  var nonTrackerTooltip = chrome.i18n.getMessage("non_tracker_tip");
+  if (printable_nontrackers.length > 0) {
+    printable_nontrackers.unshift(
+      '<div class="clicker tooltip tabHeader" title="'+nonTrackerTooltip+'" data-tooltipster=\'{"side":"top"}\'>'+nonTrackerText+'</div>'
+    );
   }
 
   if (num_trackers === 0) {
@@ -569,9 +613,10 @@ function refreshPopup() {
     $("#instructions_one_tracker").show();
 
   } else {
+    const url = new URL(POPUP_DATA.tabUrl)
     $('#instructions-many-trackers').html(chrome.i18n.getMessage(
       "popup_instructions", [
-        num_trackers,
+        url.hostname,
         "<a target='_blank' title='" + _.escape(chrome.i18n.getMessage("what_is_a_tracker")) + "' class='tooltip' href='https://www.eff.org/privacybadger/faq#What-is-a-third-party-tracker'>"
       ]
     )).find(".tooltip").tooltipster();
@@ -580,31 +625,34 @@ function refreshPopup() {
   function renderDomains() {
     const CHUNK = 1;
 
-    let $printable_trackers = $(printable_trackers.splice(0, CHUNK).join(""));
+    let $printable_blocked_trackers = $(printable_blocked_trackers.splice(0, CHUNK).join(""));
+    let $printable_not_blocked_tracker = $(printable_not_blocked_tracker.splice(0, CHUNK).join(""));
     let $printable_nontrackers = $(printable_nontrackers.splice(0, CHUNK).join(""));
 
-    $printable_trackers.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_blocked_trackers.find('.switch-toggle').each(registerToggleHandlers);
+    $printable_not_blocked_tracker.find('.switch-toggle').each(registerToggleHandlers);
     $printable_nontrackers.find('.switch-toggle').each(registerToggleHandlers);
 
     // Hide elements for removing origins (controlled from the options page).
     // Popup shows what's loaded for the current page so it doesn't make sense
     // to have removal ability here.
-    $printable_trackers.find('.removeOrigin').hide();
+    $printable_blocked_trackers.find('.removeOrigin').hide();
+    $printable_not_blocked_tracker.find('.removeOrigin').hide();
     $printable_nontrackers.find('.removeOrigin').hide();
 
-    $printable_trackers.appendTo('#trackers');
+    $printable_blocked_trackers.appendTo('#blocked');
+    $printable_not_blocked_tracker.appendTo('#notblocked');
     $printable_nontrackers.appendTo('#nontrackers');
 
     // activate tooltips
     $('#blockedResourcesInner .tooltip:not(.tooltipstered)').tooltipster(
       htmlUtils.DOMAIN_TOOLTIP_CONF);
 
-    if ($printable_trackers.length || $printable_nontrackers.length) {
+    if (originsArr.length) {
       requestAnimationFrame(renderDomains);
     } else {
       window.SLIDERS_DONE = true;
     }
-    $( "#tabs" ).tabs();
   }
   requestAnimationFrame(renderDomains);
 }
