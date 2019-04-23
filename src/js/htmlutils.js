@@ -72,7 +72,7 @@ var htmlUtils = exports.htmlUtils = {
   getActionDescription: (function () {
     const messages = {
       block: i18n.getMessage('badger_status_block', "XXX"),
-      cookieblock: i18n.getMessage('badger_status_cookieblock', "XXX"),
+      cookieblock: i18n.getMessage('badger_status_block', "XXX"),
       noaction: i18n.getMessage('badger_status_noaction', "XXX"),
       allow: i18n.getMessage('badger_status_allow', "XXX"),
       dntTooltip: i18n.getMessage('dnt_tooltip')
@@ -146,7 +146,7 @@ var htmlUtils = exports.htmlUtils = {
    * @param {Boolean} isWhitelisted Whether origin is whitelisted or not.
    * @returns {String} Origin HTML.
    */
-  getOriginHtml: function(origin, action, isWhitelisted) {
+  getOriginHtml: function(origin, owner, action, isWhitelisted) {
     action = _.escape(action);
     origin = _.escape(origin);
 
@@ -172,9 +172,9 @@ var htmlUtils = exports.htmlUtils = {
     }
 
     // Construct HTML for origin.
-    var actionDescription = htmlUtils.getActionDescription(action, origin, isWhitelisted);
+    var actionDescription = htmlUtils.getActionDescription(action, owner, isWhitelisted);
     var originHtml = '' +
-      '<div class="' + classes.join(' ') + '" data-origin="' + origin + '">' +
+      '<div class="' + classes.join(' ') + '" data-origin="' + owner + '">' +
       '<div class="origin tooltip" title="' + actionDescription + '">' + whitelistedText + origin + '</div>' +
       '<div class="removeOrigin">&#10006</div>' +
       htmlUtils.getToggleHtml(origin, action) +

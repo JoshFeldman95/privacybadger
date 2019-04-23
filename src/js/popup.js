@@ -544,15 +544,15 @@ function refreshPopup() {
 
     if (action == constants.BLOCK) {
       printable_blocked_trackers.push(
-        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+        htmlUtils.getOriginHtml(owner, origin, action, action == constants.DNT)
       );
     } else if (action == constants.COOKIEBLOCK) {
       printable_not_blocked_tracker.push(
-        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+        htmlUtils.getOriginHtml(owner, origin, action, action == constants.DNT)
       );
     } else if (action == constants.ALLOW || action == constants.NO_TRACKING) { //how is allow different from no tracking?
       printable_nontrackers.push(
-        htmlUtils.getOriginHtml(owner, action, action == constants.DNT)
+        htmlUtils.getOriginHtml(owner, origin, action, action == constants.DNT)
       );
     }
   }
@@ -567,7 +567,7 @@ function refreshPopup() {
   }
   if (printable_not_blocked_tracker.length > 0) {
     printable_not_blocked_tracker.unshift(
-      '<div class="clicker tooltip tabHeader" title="TBD" data-tooltipster=\'{"side":"top"}\'>We tried our best, but blocking these trackers would break this website.</div>'
+      '<div class="clicker tooltip tabHeader" title="These trackers were following you across at least 3 sites, but blocking them would break this site." data-tooltipster=\'{"side":"top"}\'>We tried our best, but blocking these trackers would break this website.</div>'
     );
   } else {
     $('#notblocked').parent().hide()
