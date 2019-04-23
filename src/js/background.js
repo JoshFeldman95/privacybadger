@@ -90,6 +90,8 @@ function Badger() {
     console.log("Privacy Badger is ready to rock!");
     console.log("Set DEBUG=1 to view console messages.");
 
+
+    self.loadOwnerMap();
     self.INITIALIZED = true;
   });
 
@@ -158,9 +160,17 @@ Badger.prototype = {
       }
   */
   tabData: {},
-
+  ownerMap: {},
 
   // Methods
+  loadOwnerMap: function() {
+    const url = chrome.runtime.getURL('data/tracker_owners.json');
+    fetch(url)
+    .then((response) => response.json())
+    .then((owner_map) => {
+      this.owner_map = owner_map
+    })
+  },
 
   // load seed dataset with pre-trained action and snitch maps
   loadSeedData: function() {
@@ -577,51 +587,25 @@ Badger.prototype = {
           registrant_info.substring(registrant_info.indexOf("Registrant Organization"),
           registrant_info.indexOf("Registrant State/Province")) ;
         var name = org_field.slice(org_field.indexOf(":") + 2); }); **/
-        this.tabData[tab_id].owners[domain] = this.lookupOwner(domain);
-    }
-  },
-
-  lookupOwner: function (domain) {
-    const owner_map = {
-      'Google':['doubleclick', '.g.', 'gstatic'],
-      'Oracle':['addthis','bluekai'],
-      'Cint':['cintnetworks'],
-      'Adobe':['demdex', 'omtrdc'],
-      'Optimizely':[],
-      'Nielson':['imrworldwide'],
-      'Twitter':[],
-      'Amazon':[],
-      'Comscore':['scorecardresearch'],
-      'Microsoft':['bing'],
-      'Criteo':[],
-      'Quantcast':['quantserve'],
-      'Qualtrics':['qualtrics'],
-      'Cloudflare':[],
-      'AppNexus':['adnxs'],
-      'Yahoo':['yieldmanager'],
-      'Salesforce':['krxd'],
-      'Taboola':[],
-      'Segment':[],
-      'Facebook':[],
-      'Amobee':['r.turn'],
-      'New Relic':['nr-data'],
-      'Akamai':[],
-      
-    };
-
-    for (var company in owner_map) {
-      if (domain.includes(company.toLowerCase())){
-        return company.concat(' (',domain,')')
-      }
-      for (var i = 0; i < owner_map[company].length; i++){
-        if (domain.includes(owner_map[company][i])) {
-            return company.concat(' (',domain,')')
+        if(!(domain in this.tabData[tab_id].owners)){
+          for (var company in this.owner_map) {
+            if (domain.includes(company.toLowerCase())){
+              this.tabData[tab_id].owners[domain] = company.concat(' (',domain,')')
+            } else {
+              for (var i = 0; i < this.owner_map[company].length; i++){
+                if (domain.includes(this.owner_map[company][i])) {
+                  this.tabData[tab_id].owners[domain] = company.concat(' (',domain,')')
+                }
+              }
+            }
+          }
+          if (!(domain in this.tabData[tab_id].owners)) {
+            this.tabData[tab_id].owners[domain] = domain
+          }
         }
       }
-    };
+    },
 
-    return domain
-  },
   /**
    * Update page action badge with current count.
    * @param {Integer} tab_id browser tab ID
