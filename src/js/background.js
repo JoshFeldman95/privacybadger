@@ -590,11 +590,11 @@ Badger.prototype = {
         if(!(domain in this.tabData[tab_id].owners)){
           for (var company in this.owner_map) {
             if (domain.includes(company.toLowerCase())){
-              this.tabData[tab_id].owners[domain] = company.concat(' (',domain,')')
+              this.tabData[tab_id].owners[domain] = company
             } else {
               for (var i = 0; i < this.owner_map[company].length; i++){
                 if (domain.includes(this.owner_map[company][i])) {
-                  this.tabData[tab_id].owners[domain] = company.concat(' (',domain,')')
+                  this.tabData[tab_id].owners[domain] = company
                 }
               }
             }
