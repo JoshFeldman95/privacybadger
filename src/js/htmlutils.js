@@ -104,16 +104,18 @@ var htmlUtils = exports.htmlUtils = {
       cookieblock: i18n.getMessage('domain_slider_cookieblock_tooltip'),
       allow: i18n.getMessage('domain_slider_allow_tooltip')
     };
-
+    let button_text_map= {
+      'block':'Unblock',
+      'cookieblock':'Block',
+      'noaction':'Block'
+    };
     return function (origin, action) {
-      var originId = origin.replace(/\./g, '-');
-
-        var toggleHtml = '' +
-        '<div class="switch-container ' + action + '">' +
-        '<div class = switch-toggle switch-2 switch-candy>' +
-        '<input id="block-' + originId + '" name="' + origin + '" value="0" type="radio" ' + htmlUtils.isChecked('block', action) + '><label title="' + tooltips.block + '" class="actionToggle tooltip" for="block-' + originId + '" data-origin="' + origin + '" data-action="block">block</label>' +
-        '</div></div>';
-
+      var button_text = button_text_map[action]
+      if(button_text == 'Block'){
+        var toggleHtml = '<button class="blockButton">'+button_text+'</button>'
+      } else {
+        var toggleHtml = '<button class="unblockButton">'+button_text+'</button>'
+      }
 
       return toggleHtml;
     };
@@ -174,10 +176,12 @@ var htmlUtils = exports.htmlUtils = {
     // Construct HTML for origin.
     var actionDescription = htmlUtils.getActionDescription(action, owner, isWhitelisted);
     var originHtml = '' +
+
       '<div class="' + classes.join(' ') + '" data-origin="' + owner + '">' +
-      '<div class="origin tooltip" title="' + actionDescription + '">' + whitelistedText + origin + '</div>' +
-      '<div class="removeOrigin">&#10006</div>' +
-      htmlUtils.getToggleHtml(origin, action) +
+      '<table style="table-layout: fixed; width: 100%; hyphens:manual"><tr>'+
+      '<td><div class="origin tooltip" title="' + actionDescription + '">' + whitelistedText + origin.replace('.','.&shy;') + '</div>' +
+      '<div class="removeOrigin">&#10006</div></td>' +
+      '<td style="text-align:center">'+htmlUtils.getToggleHtml(origin, action)+'</td>' +
       '<div class="honeybadgerPowered tooltip" title="'+ UNDO_ARROW_TOOLTIP_TEXT + '"></div>' +
       '</div>';
 

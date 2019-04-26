@@ -420,14 +420,14 @@ function registerToggleHandlers() {
   var value = $(this).children('input:checked').val();
   //var userHandle = $(this).children('a');
 
-  var slider = $("<div></div>").slider({
+  var slider = $("<div></div>").button({
     min: 0,
     max: 2,
     value: value,
     create: function(/*event, ui*/) {
       // Set the margin for the handle of the slider we're currently creating,
       // depending on its blocked/cookieblocked/allowed value (this == .ui-slider)
-      $(this).children('.ui-slider-handle').css('margin-left', -16 * value + 'px');
+      $(this).children('.ui-button');
     },
     slide: function(event, ui) {
       radios.filter("[value=" + ui.value + "]").click();
@@ -559,7 +559,7 @@ function refreshPopup() {
 
   if (printable_blocked_trackers.length > 0) {
     printable_blocked_trackers.unshift(
-      '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Don\'t worry! We blocked these trackers.</div>'
+      '<div class="clicker tooltip tabHeader" title="We block trackers if they\'ve been following you across at least 3 sites" data-tooltipster=\'{"side":"top"}\'>Hurray for privacy! We blocked these trackers.</div>'
     );
   } else{
     $("#blocked").parent().hide()
@@ -567,7 +567,7 @@ function refreshPopup() {
   }
   if (printable_not_blocked_tracker.length > 0) {
     printable_not_blocked_tracker.unshift(
-      '<div class="clicker tooltip tabHeader" title="These trackers were following you across at least 3 sites, but blocking them would break this site." data-tooltipster=\'{"side":"top"}\'>We tried our best, but blocking these trackers would break this website.</div>'
+      '<div class="clicker tooltip tabHeader" title="These trackers were following you across at least 3 sites, but blocking them would break this site." data-tooltipster=\'{"side":"top"}\'>Blocking these trackers would break this site.</div>'
     );
   } else {
     $('#notblocked').parent().hide()

@@ -370,7 +370,7 @@
         "description": ""
     },
     "popup_instructions": {
-        "message":"Sites other than $SITE$ are $TRACKER_LINK_START$tracking$TRACKER_LINK_END$ you.",
+        "message":"Sites other than $SITE$ are $TRACKER_LINK_START$tracking$TRACKER_LINK_END$ you. These tracking companies follow you as you browse the web.",
         "description": "Popup message that shows the number of trackers. This particular message is used when that number is greater than one.",
         "placeholders": {
             "site": {

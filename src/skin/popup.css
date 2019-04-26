@@ -42,6 +42,40 @@ body {
 a { text-decoration: none }
 a:hover { color: #ec9329 }
 
+.blockButton{
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid #000;
+  width: 100%;
+  color: #000;
+  background-color: #ea4343;
+}
+
+.blockButton:hover {
+  color: #000;
+  border: 2px solid #000;
+  font-weight:bold;
+}
+
+.unblockButton{
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  border: 2px solid #000;
+  width: 100%;
+  color: #000;
+  background-color: #53d76a;
+}
+
+.unblockButton:hover {
+  color: #000;
+  border: 2px solid #000;
+  font-weight:bold;
+}
+
 .checkbox label {
   min-height: 20px;
   padding-left: 20px;
@@ -67,12 +101,12 @@ a:hover { color: #ec9329 }
     direction: ltr;
 }
 .origin{
-  max-width: 210px;
+  /* max-width: 210px; */
   color: #555555;
-  float: left;
-  overflow: hidden;
+  /* float: left; */
+  /* overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: nowrap; */
 }
 
 .removeOrigin {
@@ -277,6 +311,7 @@ font-size: 16px;
 .pbButton:hover {
   color: #000;
   border: 2px solid #000;
+  font-weight:bold;
 }
 
 .tabButton{
@@ -295,6 +330,7 @@ font-size: 16px;
   padding: 10px;
   color: #000;
   background-color: #fefefe;
+  font-weight:bold;
 
 }
 
@@ -453,16 +489,4 @@ div.overlay.active {
     left: 0;
     margin-right: 0;
   }
-}
-
-.column {
-  float: left;
-  width: 50%;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
 }
